@@ -1,11 +1,383 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2015 Intel Corporation
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file 
+except in compliance with the License. You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the 
+License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
+either express or implied. See the License for the specific language governing permissions 
+and limitations under the License
+-->
+
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-  id="intel.xdk.facebook"
-  version="0.0.1">
-  <name>Intel XDK Facebook</name>
-  <description>Intel XDK Facebook Plugin</description>
-  <license>Apache 2.0</license>
-  <keywords>intel,xdk,facebook</keywords>
+    id="intel.xdk.facebook"
+    version="1.1.2">
+    <name>Intel XDK Facebook</name>
+    <description>Intel XDK Facebook Plugin</description>
+    <license>Apache 2.0</license>
+    <keywords>Intel XDK, intel.xdk, facebook</keywords>
+    <repo>https://github.com/01org/cordova-plugin-intel-xdk-facebook.git</repo>
+    <issue></issue>
+
+    <preference name="FBAPPID" />
+
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>
+
+    <js-module src="www/facebook.js" name="facebook">
+        <clobbers target="intel.xdk.facebook" />
+    </js-module>
+
+    <!-- windows -->
+    <platform name="windows">
+        <config-file target="package.appxmanifest" parent="/Package/Capabilities">
+        </config-file>
+
+        <source-file src="src/windows8/temp.txt" target-dir="../../properties/FBAppId/$FBAPPID" />
+        <source-file src="src/windows8/temp.txt"  target-dir="../../properties/FBAppId/XXXXXXXXXXXXXXX" />
+
+        <js-module src="src/windows8/facebookProxy.js" name="FacebookProxy">
+            <merges target="" />
+        </js-module>
+        <js-module src="src/windows8/fb.js" name="facebookSdk">
+            <merges target="" />
+        </js-module>
+    </platform>
+
+    <!-- windows8 -->
+    <platform name="windows8">
+        <config-file target="package.appxmanifest" parent="/Package/Capabilities">
+        </config-file>
+
+        <source-file src="src/windows8/temp.txt" target-dir="../../../properties/FBAppId/$FBAPPID" />
+        <source-file src="src/windows8/temp.txt"  target-dir="../../../properties/FBAppId/XXXXXXXXXXXXXXX" />
+
+        <js-module src="src/windows8/facebookProxy.js" name="FacebookProxy">
+            <merges target="" />
+        </js-module>
+        <js-module src="src/windows8/fb.js" name="facebookSdk">
+            <merges target="" />
+        </js-module>
+    </platform>
+
+    <!-- Windows Phone 8 -->
+    <platform name="wp8">
+        <source-file src="src/wp8/IntelXDKFacebook.cs" target-dir=""/>
+
+        <source-file src="src/wp8/Facebook.dll" target-dir="" />
+        <source-file src="src/wp8/Facebook.Client.dll" target-dir="" />
+
+        <!--<source-file src="src/wp8/fbappid.txt" target-dir="../../props/FBAPPID/$FBAPPID" />-->
+        <source-file src="src/wp8/fbappid.txt" target-dir="../../props/FBAPPID/XXXXXXXXXXXXXXX" />
+
+        <config-file target="config.xml" parent="/*">
+            <feature name="Facebook">
+                <param name="wp-package" value="Facebook" />
+            </feature>
+        </config-file>
+    </platform>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="Facebook">
+                <param name="android-package" value="com.intel.xdk.facebook.IntelXDKFacebook"/>
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+ 		   <uses-permission android:name="android.permission.INTERNET" />
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="application">
+            <meta-data android:value="@string/app_id" android:name="com.facebook.sdk.ApplicationId" />
+            <activity android:name="com.facebook.LoginActivity" ></activity>
+        </config-file>
+
+        <source-file src="src/android/android-support-v4.jar" target-dir="libs" />
+
+        <!-- res files -->
+        <source-file src="src/android/layout/com_facebook_friendpickerfragment.xml" target-dir="res/layout" />
+        <source-file src="src/android/layout/com_facebook_login_activity_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/layout/com_facebook_picker_activity_circle_row.xml" target-dir="res/layout" />
+        <source-file src="src/android/layout/com_facebook_picker_checkbox.xml" target-dir="res/layout" />
+        <source-file src="src/android/layout/com_facebook_picker_image.xml" target-dir="res/layout" />
+        <source-file src="src/android/layout/com_facebook_picker_list_row.xml" target-dir="res/layout" />
+        <source-file src="src/android/layout/com_facebook_picker_list_section_header.xml" target-dir="res/layout" />
+        <source-file src="src/android/layout/com_facebook_picker_search_box.xml" target-dir="res/layout" />
+        <source-file src="src/android/layout/com_facebook_picker_title_bar.xml" target-dir="res/layout" />
+        <source-file src="src/android/layout/com_facebook_picker_title_bar_stub.xml" target-dir="res/layout" />
+        <source-file src="src/android/layout/com_facebook_placepickerfragment.xml" target-dir="res/layout" />
+        <source-file src="src/android/layout/com_facebook_placepickerfragment_list_row.xml" target-dir="res/layout" />
+        <source-file src="src/android/layout/com_facebook_search_bar_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/layout/com_facebook_usersettingsfragment.xml" target-dir="res/layout" />
+
+        <source-file src="src/android/drawable/com_facebook_button_blue.xml" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_button_blue_focused.9.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_button_blue_normal.9.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_button_blue_pressed.9.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_button_check.xml" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_button_check_off.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_button_check_on.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_button_grey_focused.9.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_button_grey_normal.9.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_button_grey_pressed.9.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_close.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_inverse_icon.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_list_divider.9.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_list_section_header_background.9.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_loginbutton_silver.xml" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_logo.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_picker_item_background.xml" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_picker_list_focused.9.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_picker_list_longpressed.9.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_picker_list_pressed.9.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_picker_list_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_picker_list_selector_background_transition.xml" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_picker_list_selector_disabled.9.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_picker_top_button.xml" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_place_default_icon.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_profile_default_icon.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_profile_picture_blank_portrait.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_profile_picture_blank_square.png" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_top_background.xml" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_top_button.xml" target-dir="res/drawable" />
+        <source-file src="src/android/drawable/com_facebook_usersettingsfragment_background_gradient.xml" target-dir="res/drawable" />
+
+        <source-file src="src/android/drawable-hdpi/com_facebook_button_blue_focused.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/drawable-hdpi/com_facebook_button_blue_normal.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/drawable-hdpi/com_facebook_button_blue_pressed.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/drawable-hdpi/com_facebook_button_grey_focused.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/drawable-hdpi/com_facebook_button_grey_normal.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/drawable-hdpi/com_facebook_button_grey_pressed.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/drawable-hdpi/com_facebook_close.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/drawable-hdpi/com_facebook_inverse_icon.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/drawable-hdpi/com_facebook_logo.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/drawable-hdpi/com_facebook_picker_magnifier.png" target-dir="res/drawable-hdpi" />
+
+        <source-file src="src/android/drawable-ldpi/com_facebook_close.png" target-dir="res/drawable-ldpi" />
+
+        <source-file src="src/android/drawable-mdpi/com_facebook_button_blue_focused.9.png" target-dir="res/drawable-mdpi" />
+        <source-file src="src/android/drawable-mdpi/com_facebook_button_blue_normal.9.png" target-dir="res/drawable-mdpi" />
+        <source-file src="src/android/drawable-mdpi/com_facebook_button_blue_pressed.9.png" target-dir="res/drawable-mdpi" />
+        <source-file src="src/android/drawable-mdpi/com_facebook_inverse_icon.png" target-dir="res/drawable-mdpi" />
+        <source-file src="src/android/drawable-mdpi/com_facebook_picker_magnifier.png" target-dir="res/drawable-mdpi" />
+
+        <source-file src="src/android/drawable-xhdpi/com_facebook_button_blue_focused.9.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/drawable-xhdpi/com_facebook_button_blue_normal.9.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/drawable-xhdpi/com_facebook_button_blue_pressed.9.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/drawable-xhdpi/com_facebook_button_grey_focused.9.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/drawable-xhdpi/com_facebook_button_grey_normal.9.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/drawable-xhdpi/com_facebook_button_grey_pressed.9.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/drawable-xhdpi/com_facebook_close.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/drawable-xhdpi/com_facebook_inverse_icon.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/drawable-xhdpi/com_facebook_logo.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/drawable-xhdpi/com_facebook_picker_magnifier.png" target-dir="res/drawable-xhdpi" />
+
+        <source-file src="src/android/values/attrs.xml" target-dir="res/values" />
+        <source-file src="src/android/values/colors_FB.xml" target-dir="res/values" />
+        <source-file src="src/android/values/drawables.xml" target-dir="res/values" />
+        <source-file src="src/android/values/styles.xml" target-dir="res/values" />
+
+        <source-file src="src/android/values-es" target-dir="res" />
+        <source-file src="src/android/values-hdpi" target-dir="res" />
+        <source-file src="src/android/values-he" target-dir="res" />
+        <source-file src="src/android/values-iw" target-dir="res" />
+        <source-file src="src/android/values-ldpi" target-dir="res" />
+        <source-file src="src/android/values-mdpi" target-dir="res" />
+        <source-file src="src/android/values-xhdpi" target-dir="res" />
+
+        <!-- cordova plugin src files -->
+        <source-file src="src/android/com/intel/xdk/facebook/IntelXDKFacebook.java" target-dir="src/com/intel/xdk/facebook" />
+        <source-file src="src/android/com/intel/xdk/facebook/BuildConfig.java" target-dir="src/com/intel/xdk/facebook" />
+
+        <!-- facebook src files -->
+        <source-file src="src/android/com/facebook/AccessToken.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/AccessTokenSource.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/AppEventsConstants.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/AppEventsLogger.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/AppLinkData.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/AuthorizationClient.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/FacebookAuthorizationException.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/FacebookDialogException.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/FacebookException.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/FacebookGraphObjectException.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/FacebookOperationCanceledException.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/FacebookRequestError.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/FacebookSdkVersion.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/FacebookServiceException.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/GetTokenClient.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/HttpMethod.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/InsightsLogger.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/LegacyHelper.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/LoggingBehavior.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/LoginActivity.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/NativeAppCallAttachmentStore.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/NativeAppCallContentProvider.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/NonCachingTokenCachingStrategy.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/Request.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/RequestAsyncTask.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/RequestBatch.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/Response.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/Session.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/SessionDefaultAudience.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/SessionLoginBehavior.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/SessionState.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/Settings.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/SharedPreferencesTokenCachingStrategy.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/TestSession.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/TokenCachingStrategy.java" target-dir="src/com/facebook" />
+        <source-file src="src/android/com/facebook/UiLifecycleHelper.java" target-dir="src/com/facebook" />
+
+        <source-file src="src/android/com/facebook/android/AsyncFacebookRunner.java" target-dir="src/com/facebook/android" />
+        <source-file src="src/android/com/facebook/android/DialogError.java" target-dir="src/com/facebook/android" />
+        <source-file src="src/android/com/facebook/android/Facebook.java" target-dir="src/com/facebook/android" />
+        <source-file src="src/android/com/facebook/android/FacebookError.java" target-dir="src/com/facebook/android" />
+        <source-file src="src/android/com/facebook/android/FbDialog.java" target-dir="src/com/facebook/android" />
+        <source-file src="src/android/com/facebook/android/Util.java" target-dir="src/com/facebook/android" />
+
+        <source-file src="src/android/com/facebook/internal/AnalyticsEvents.java" target-dir="src/com/facebook/internal" />
+        <source-file src="src/android/com/facebook/internal/CacheableRequestBatch.java" target-dir="src/com/facebook/internal" />
+        <source-file src="src/android/com/facebook/internal/FileLruCache.java" target-dir="src/com/facebook/internal" />
+        <source-file src="src/android/com/facebook/internal/ImageDownloader.java" target-dir="src/com/facebook/internal" />
+        <source-file src="src/android/com/facebook/internal/ImageRequest.java" target-dir="src/com/facebook/internal" />
+        <source-file src="src/android/com/facebook/internal/ImageResponse.java" target-dir="src/com/facebook/internal" />
+        <source-file src="src/android/com/facebook/internal/ImageResponseCache.java" target-dir="src/com/facebook/internal" />
+        <source-file src="src/android/com/facebook/internal/Logger.java" target-dir="src/com/facebook/internal" />
+        <source-file src="src/android/com/facebook/internal/NativeProtocol.java" target-dir="src/com/facebook/internal" />
+        <source-file src="src/android/com/facebook/internal/package-info.java" target-dir="src/com/facebook/internal" />
+        <source-file src="src/android/com/facebook/internal/PlatformServiceClient.java" target-dir="src/com/facebook/internal" />
+        <source-file src="src/android/com/facebook/internal/ServerProtocol.java" target-dir="src/com/facebook/internal" />
+        <source-file src="src/android/com/facebook/internal/SessionAuthorizationType.java" target-dir="src/com/facebook/internal" />
+        <source-file src="src/android/com/facebook/internal/SessionTracker.java" target-dir="src/com/facebook/internal" />
+        <source-file src="src/android/com/facebook/internal/UrlRedirectCache.java" target-dir="src/com/facebook/internal" />
+        <source-file src="src/android/com/facebook/internal/Utility.java" target-dir="src/com/facebook/internal" />
+        <source-file src="src/android/com/facebook/internal/Validate.java" target-dir="src/com/facebook/internal" />
+        <source-file src="src/android/com/facebook/internal/WorkQueue.java" target-dir="src/com/facebook/internal" />
+        <source-file src="src/android/com/facebook/model/CreateGraphObject.java" target-dir="src/com/facebook/model" />
+        <source-file src="src/android/com/facebook/model/GraphLocation.java" target-dir="src/com/facebook/model" />
+        <source-file src="src/android/com/facebook/model/GraphMultiResult.java" target-dir="src/com/facebook/model" />
+        <source-file src="src/android/com/facebook/model/GraphObject.java" target-dir="src/com/facebook/model" />
+        <source-file src="src/android/com/facebook/model/GraphObjectList.java" target-dir="src/com/facebook/model" />
+        <source-file src="src/android/com/facebook/model/GraphPlace.java" target-dir="src/com/facebook/model" />
+        <source-file src="src/android/com/facebook/model/GraphUser.java" target-dir="src/com/facebook/model" />
+        <source-file src="src/android/com/facebook/model/JsonUtil.java" target-dir="src/com/facebook/model" />
+        <source-file src="src/android/com/facebook/model/OpenGraphAction.java" target-dir="src/com/facebook/model" />
+        <source-file src="src/android/com/facebook/model/OpenGraphObject.java" target-dir="src/com/facebook/model" />
+        <source-file src="src/android/com/facebook/model/PropertyName.java" target-dir="src/com/facebook/model" />
+        <source-file src="src/android/com/facebook/widget/FacebookDialog.java" target-dir="src/com/facebook/widget" />
+        <source-file src="src/android/com/facebook/widget/FacebookFragment.java" target-dir="src/com/facebook/widget" />
+        <source-file src="src/android/com/facebook/widget/FriendPickerFragment.java" target-dir="src/com/facebook/widget" />
+        <source-file src="src/android/com/facebook/widget/GraphObjectAdapter.java" target-dir="src/com/facebook/widget" />
+        <source-file src="src/android/com/facebook/widget/GraphObjectCursor.java" target-dir="src/com/facebook/widget" />
+        <source-file src="src/android/com/facebook/widget/GraphObjectPagingLoader.java" target-dir="src/com/facebook/widget" />
+        <source-file src="src/android/com/facebook/widget/LoginButton.java" target-dir="src/com/facebook/widget" />
+        <source-file src="src/android/com/facebook/widget/PickerFragment.java" target-dir="src/com/facebook/widget" />
+        <source-file src="src/android/com/facebook/widget/PlacePickerFragment.java" target-dir="src/com/facebook/widget" />
+        <source-file src="src/android/com/facebook/widget/ProfilePictureView.java" target-dir="src/com/facebook/widget" />
+        <source-file src="src/android/com/facebook/widget/SimpleGraphObjectCursor.java" target-dir="src/com/facebook/widget" />
+        <source-file src="src/android/com/facebook/widget/UserSettingsFragment.java" target-dir="src/com/facebook/widget" />
+        <source-file src="src/android/com/facebook/widget/WebDialog.java" target-dir="src/com/facebook/widget" />
+
+        <config-file target="res/values/strings.xml" parent="/resources">
+            <string name="FBAppId">$FBAPPID</string>
+            <string name="app_id">$FBAPPID</string>
+            <!--<string name="FBAppId">XXXXXXXXXXXXXXX</string>
+            <string name="app_id">XXXXXXXXXXXXXXX</string>-->
+            <string name="com_facebook_dialogloginactivity_ok_button">OK</string>
+            <string name="com_facebook_loginview_log_out_button">Log out</string>
+            <string name="com_facebook_loginview_log_in_button">Log in with Facebook</string>
+            <string name="com_facebook_loginview_logged_in_as">Logged in as: %1$s</string>
+            <string name="com_facebook_loginview_logged_in_using_facebook">Logged in using Facebook</string>
+            <string name="com_facebook_loginview_log_out_action">Log out</string>
+            <string name="com_facebook_loginview_cancel_action">Cancel</string>
+            <string name="com_facebook_logo_content_description">Facebook Logo</string>
+            <string name="com_facebook_usersettingsfragment_log_in_button">Log in&#8230;</string>
+            <string name="com_facebook_usersettingsfragment_logged_in">Logged in</string>
+            <string name="com_facebook_usersettingsfragment_not_logged_in">Not logged in</string>
+            <string name="com_facebook_placepicker_subtitle_format">%1$s • %2$,d were here</string>
+            <string name="com_facebook_placepicker_subtitle_catetory_only_format">%1$s</string>
+            <string name="com_facebook_placepicker_subtitle_were_here_only_format">%1$,d were here</string>
+            <string name="com_facebook_picker_done_button_text">Done</string>
+            <string name="com_facebook_choose_friends">Choose Friends</string>
+            <string name="com_facebook_nearby">Nearby</string>
+            <string name="com_facebook_loading">Loading...</string>
+            <string name="com_facebook_internet_permission_error_title">AndroidManifest Error</string>
+            <string name="com_facebook_internet_permission_error_message">WebView login requires INTERNET permission</string>
+            <string name="com_facebook_requesterror_web_login">Your Facebook account is locked. Please log into www.facebook.com to continue.</string>
+            <string name="com_facebook_requesterror_relogin">Please log into this app again to reconnect your Facebook account.</string>
+            <string name="com_facebook_requesterror_password_changed">Your Facebook password has changed. Please log into this app again to reconnect your Facebook account.</string>
+            <string name="com_facebook_requesterror_reconnect">Please log into this app again to reconnect your Facebook account.</string>
+            <string name="com_facebook_requesterror_permissions">This app doesn’t have permission to do this. To change permissions, try logging into the app again.</string>
+        </config-file>
+    </platform>
+
+    <!-- iOS -->
+    <platform name="ios">
+
+        <config-file target="config.xml" parent="/*">
+            <feature name="Facebook">
+                <param name="ios-package" value="XDKFacebook" />
+            </feature>
+        </config-file>
+        
+        <config-file target="*-Info.plist" parent="FBAppId">
+            <string>$FBAPPID</string>
+        </config-file>
+        
+        <config-file target="*-Info.plist" parent="FacebookDisplayName">
+            <string>${PRODUCT_NAME}</string>
+        </config-file>
+        
+        <config-file target="*-Info.plist" parent="CFBundleURLTypes">
+          <array>
+            <dict>
+              <key>CFBundleURLSchemes</key>
+              <array>
+                <string>fb$FBAPPID</string>
+              </array>
+            </dict>
+          </array>
+        </config-file>
+
+        <source-file src="src/ios/XDKFacebook.m" />
+
+        <source-file src="src/ios/FBDelegate.m" compiler-flags="-fno-objc-arc" />
+        <header-file src="src/ios/FBDelegate.h" />
+
+        <header-file src="src/ios/FaceBook/Facebook.h" />
+        <source-file src="src/ios/FaceBook/Facebook.m" compiler-flags="-fno-objc-arc" />
+        <header-file src="src/ios/FaceBook/FBConnect.h" />
+        <!-- source-file src="src/ios/FaceBook/FBDialog.bundle" compiler-flags="-fno-objc-arc" / -->
+        <header-file src="src/ios/FaceBook/FBDialog.h" />
+        <source-file src="src/ios/FaceBook/FBDialog.m" compiler-flags="-fno-objc-arc" />
+        <header-file src="src/ios/FaceBook/FBFrictionlessRequestSettings.h" />
+        <source-file src="src/ios/FaceBook/FBFrictionlessRequestSettings.m" compiler-flags="-fno-objc-arc" />
+        <header-file src="src/ios/FaceBook/FBLoginDialog.h" />
+        <source-file src="src/ios/FaceBook/FBLoginDialog.m" compiler-flags="-fno-objc-arc" />
+        <header-file src="src/ios/FaceBook/FBRequest.h" />
+        <source-file src="src/ios/FaceBook/FBRequest.m" compiler-flags="-fno-objc-arc" />
+
+        <header-file src="src/ios/FaceBook/JSON/JSON.h" />
+        <header-file src="src/ios/FaceBook/JSON/NSObject+SBJSON.h" />
+        <source-file src="src/ios/FaceBook/JSON/NSObject+SBJSON.m" compiler-flags="-fno-objc-arc" />
+        <header-file src="src/ios/FaceBook/JSON/NSString+SBJSON.h" />
+        <source-file src="src/ios/FaceBook/JSON/NSString+SBJSON.m" compiler-flags="-fno-objc-arc" />
+        <header-file src="src/ios/FaceBook/JSON/SBJSON.h" />
+        <source-file src="src/ios/FaceBook/JSON/SBJSON.m" compiler-flags="-fno-objc-arc" />
+        <header-file src="src/ios/FaceBook/JSON/SBJsonBase.h" />
+        <source-file src="src/ios/FaceBook/JSON/SBJsonBase.m" compiler-flags="-fno-objc-arc" />
+        <header-file src="src/ios/FaceBook/JSON/SBJsonParser.h" />
+        <source-file src="src/ios/FaceBook/JSON/SBJsonParser.m" compiler-flags="-fno-objc-arc" />
+        <header-file src="src/ios/FaceBook/JSON/SBJsonWriter.h" />
+        <source-file src="src/ios/FaceBook/JSON/SBJsonWriter.m" compiler-flags="-fno-objc-arc" />
+
+    </platform>
 
 </plugin>
